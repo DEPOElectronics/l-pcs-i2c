@@ -18,7 +18,7 @@ struct l_pcs_i2c_data
     struct mutex        lock;
     char                valid;
     unsigned long       last_updated;
-    u16                 temp;
+    u32                 temp;
 };
 
 static void l_pcs_i2c_update_device(struct device *dev)
@@ -40,7 +40,7 @@ static void l_pcs_i2c_update_device(struct device *dev)
             u16 temp = bytes[0];
             temp <<= 8;
             temp |= ((u16)bytes[1] & 0xff);
-            data->temp = temp * 125;
+            data->temp = (u32)temp * 125;
             data->last_updated = jiffies;
             data->valid = 1;
         }
